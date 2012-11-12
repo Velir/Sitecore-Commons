@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{18CC7E88-1C2E-483B-99F6-9D88744E9B48}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sitecore.SharedSource.Commons</RootNamespace>
+    <AssemblyName>Sitecore.SharedSource.Commons</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\..\Lib\Sitecore\v6.4.1\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Client">
+      <HintPath>..\..\Lib\Sitecore\v6.4.1\Sitecore.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Kernel">
+      <HintPath>..\..\Lib\Sitecore\v6.4.1\Sitecore.Kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Logging">
+      <HintPath>..\..\Lib\Sitecore\v6.4.1\Sitecore.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Abstractions\Databases\DatabaseFactory.cs" />
+    <Compile Include="Abstractions\Databases\DatabaseWrapper.cs" />
+    <Compile Include="Abstractions\Databases\IDatabase.cs" />
+    <Compile Include="Abstractions\Databases\IDatabaseFactory.cs" />
+    <Compile Include="Abstractions\Items\CustomItemWrapper.cs" />
+    <Compile Include="Abstractions\Items\ICustomItem.cs" />
+    <Compile Include="Abstractions\Items\IItem.cs" />
+    <Compile Include="Abstractions\Items\IItemFactory.cs" />
+    <Compile Include="Abstractions\Items\ISitecoreItem.cs" />
+    <Compile Include="Abstractions\Items\ItemFactory.cs" />
+    <Compile Include="Abstractions\Items\ItemWrapper.cs" />
+    <Compile Include="Abstractions\Managers\ILinkManager.cs" />
+    <Compile Include="Abstractions\Managers\SitecoreLinkManager.cs" />
+    <Compile Include="Abstractions\Templates\ITemplate.cs" />
+    <Compile Include="Abstractions\Templates\ITemplateFactory.cs" />
+    <Compile Include="Abstractions\Templates\ITemplateItem.cs" />
+    <Compile Include="Abstractions\Templates\ITemplateItemFactory.cs" />
+    <Compile Include="Abstractions\Templates\TemplateFactory.cs" />
+    <Compile Include="Abstractions\Templates\TemplateItemFactory.cs" />
+    <Compile Include="Abstractions\Templates\TemplateItemWrapper.cs" />
+    <Compile Include="Abstractions\Templates\TemplateWrapper.cs" />
+    <Compile Include="CustomItems\Factory\ItemInterfaceFactory.cs" />
+    <Compile Include="CustomSitecore\Pipeline\AutoPublish.cs" />
+    <Compile Include="Extensions\CustomItemExtensions.cs" />
+    <Compile Include="Extensions\DatabaseExtensions.cs" />
+    <Compile Include="Extensions\DeviceExtensions.cs" />
+    <Compile Include="Extensions\FastQueryExtensions.cs" />
+    <Compile Include="Extensions\FieldCollectionExtensionsClass.cs" />
+    <Compile Include="Extensions\FieldExtensionsClass.cs" />
+    <Compile Include="Extensions\ItemExtensions.cs" />
+    <Compile Include="Extensions\ItemListExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="ItemReference\ItemReferenceObject.cs" />
+    <Compile Include="ItemReference\ItemReferenceObject.static.cs" />
+    <Compile Include="CustomSitecore\Pipeline\CancelEntireSitePublish.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\CreateItem.cs" />
+    <Compile Include="Utilities\CreateItemUtil.cs" />
+    <Compile Include="Utilities\FieldUtil.cs" />
+    <Compile Include="Utilities\ICreateItem.cs" />
+    <Compile Include="Utilities\ItemNameUtil.cs" />
+    <Compile Include="Utilities\ItemUtil.cs" />
+    <Compile Include="Utilities\LanguageUtil.cs" />
+    <Compile Include="Utilities\LayoutUtil.cs" />
+    <Compile Include="Utilities\MediaLibrary\MediaFieldUtil.cs" />
+    <Compile Include="Utilities\MediaLibrary\MediaLibraryUtil.cs" />
+    <Compile Include="Utilities\PresentationUtil.cs" />
+    <Compile Include="Utilities\SerializationUtil.cs" />
+    <Compile Include="Utilities\SitecoreItemFinder.cs" />
+    <Compile Include="Utilities\SitecoreLinkUtil.cs" />
+    <Compile Include="Utilities\UserUtil.cs" />
+    <Compile Include="Utilities\WebControlUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CustomSitecore\ContentEditor\Commands\" />
+    <Folder Include="CustomSitecore\ContentEditor\Fields\" />
+    <Folder Include="CustomSitecore\ContentEditor\UI\" />
+    <Folder Include="CustomSitecore\Handlers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
