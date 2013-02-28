@@ -64,6 +64,35 @@ namespace Sitecore.SharedSource.Commons.Utilities
 		}
 
 		/// <summary>
+		/// 	Get the sub items of an item that are using the specified template.
+		/// </summary>
+		/// <param name = "rootItem">The root item.</param>
+		/// <param name = "templateId">The template id to check for.</param>
+		/// <param name = "recursive">if set to <c>true</c> all sub items will be searched, otherwise only the first level children
+		/// 	will be looked at.</param>
+		/// <returns>A list of items below the root item that are using the passed in template.</returns>
+		public static List<Item> GetSubItemsOfTemplate(Item rootItem, string templateId, bool recursive)
+		{
+			//try to get an ID from the templateId string
+			ID id = null;
+			if(!ID.TryParse(templateId, out id))
+			{
+				return new List<Item>();
+			}
+			
+			if (recursive)
+			{
+				return (from Item child in rootItem.Axes.GetDescendants()
+						where child.Template.ID == id
+						select child).ToList();
+			}
+		
+			return (from Item child in rootItem.Children
+					where child.Template.ID == id
+					select child).ToList();
+		}
+
+		/// <summary>
 		/// 	Get the sub items of an item that are not using the specified template.
 		/// </summary>
 		/// <param name = "rootItem">The root item.</param>

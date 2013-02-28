@@ -37,13 +37,18 @@ namespace Sitecore.SharedSource.Commons.Extensions
 		}
 
 		/// <summary>
-		/// 	Gets the item by url
+		/// Gets the item by url
 		/// </summary>
 		/// <param name = "url"></param>
 		/// <param name = "database"></param>
 		/// <param name="replaceDashes"></param>
 		/// <returns></returns>
 		public static Item GetItemByUrlParts(this string url, Database database, bool replaceDashes)
+		{
+			return GetItemByUrlParts(url, database, replaceDashes, "/sitecore/content/home");
+		}
+
+		public static Item GetItemByUrlParts(this string url, Database database, bool replaceDashes, string sitePath)
 		{
 			//set variables and clean up strings
 			url = url.ToLower();
@@ -53,11 +58,18 @@ namespace Sitecore.SharedSource.Commons.Extensions
 				url = url.Replace("-", " ");
 			}
 
-			//remove parameters
+			//remove extension
 			if (url.Contains(".aspx"))
 			{
 				int aspxIndex = url.IndexOf(".aspx");
 				url = url.Substring(0, aspxIndex);
+			}
+
+			//remove parameters
+			if(url.Contains("?"))
+			{
+				int index = url.IndexOf("?");
+				url = url.Substring(0, index);
 			}
 
 			//remove host
@@ -71,7 +83,7 @@ namespace Sitecore.SharedSource.Commons.Extensions
 			}
 
 			//bring back the item path without the host
-			string itemPath = string.Format("/sitecore/content/home{0}", m.Groups[1].Value);
+			string itemPath = string.Format("{0}{1}", sitePath, m.Groups[1].Value);
 
 			//get item from sitecore
 			Item item = database.GetItem(itemPath);

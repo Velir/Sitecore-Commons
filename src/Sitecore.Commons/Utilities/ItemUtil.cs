@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Sitecore.Data;
 using Sitecore.Data.Items;
+using Sitecore.Sites;
+using Sitecore.Web;
 
 namespace Sitecore.SharedSource.Commons.Utilities
 {
@@ -9,6 +11,33 @@ namespace Sitecore.SharedSource.Commons.Utilities
 	///</summary>
 	public class ItemUtil
 	{
+		/// <summary>
+		/// Find proper site based on the passed item
+		/// </summary>
+		/// <param name="item"></param>
+		/// <returns></returns>
+		public static SiteInfo GetSite(Item item)
+		{
+			string path = item.Paths.FullPath.ToLower();
+
+			//try and match item path with Site start path)
+			foreach (SiteInfo site in SiteContextFactory.Sites)
+			{
+				if (string.IsNullOrEmpty(site.HostName) || site.StartItem == null)
+				{
+					continue;
+				}
+				string startPath = site.RootPath + site.StartItem;
+
+				if (path.Contains(startPath.ToLower()))
+				{
+					return site;
+				}
+			}
+
+			return null;
+		}
+
 		///<summary>
 		///	Provides a boolean value for Checkboxes.
 		///</summary>

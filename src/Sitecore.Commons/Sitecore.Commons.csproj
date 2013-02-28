@@ -98,6 +98,7 @@
     <Compile Include="Extensions\FastQueryExtensions.cs" />
     <Compile Include="Extensions\FieldCollectionExtensionsClass.cs" />
     <Compile Include="Extensions\FieldExtensionsClass.cs" />
+    <Compile Include="Extensions\IdExtensions.cs" />
     <Compile Include="Extensions\ItemExtensions.cs" />
     <Compile Include="Extensions\ItemListExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
