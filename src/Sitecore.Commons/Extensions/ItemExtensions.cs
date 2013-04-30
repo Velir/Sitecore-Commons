@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Sitecore.Data.Items;
+using Sitecore.Diagnostics;
 
 namespace Sitecore.SharedSource.Commons.Extensions
 {
@@ -40,7 +41,7 @@ namespace Sitecore.SharedSource.Commons.Extensions
 			{
 				return false;
 			}
-			if (depth < -1) // If depth is less than -1 somthing is wrong with recursion; error out
+			if (depth < -1) // If depth is less than -1 something is wrong with recursion; error out
 			{
 				throw new ArgumentOutOfRangeException("depth", depth, @"Depth but be -1, 0, or greater.");
 			}
@@ -51,8 +52,8 @@ namespace Sitecore.SharedSource.Commons.Extensions
 				return true;
 			}
 
-			// Are we looking for decentands of the root template?  Everything is that.
-			// TODO: Take this condition out, unless were explicitly looking at all levels, this may not match the rest of the fucntions behavior
+			// Are we looking for descendants of the root template?  Everything is that.
+			// TODO: Take this condition out, unless were explicitly looking at all levels, this may not match the rest of the functions behavior
 			if ( (item.IsOfTemplate(rootTemplateId)) && (item.ID.ToString() == templateId))
 			{
 				return true;
@@ -65,9 +66,15 @@ namespace Sitecore.SharedSource.Commons.Extensions
 			}
 
 			// Check base templates
-			// TODO - look into the impact of recusion on performance, particularly with respect to deep and broad trees.
+			// TODO - look into the impact of recursion on performance, particularly with respect to deep and broad trees.
 			foreach (TemplateItem baseTemplate in item.Template.BaseTemplates)
 			{
+				if (((Item)baseTemplate).IsNull())
+				{// Log and continue on null base-templates.
+					Log.Error(string.Format("Invalid base template, check the publication status for the base templates of item with guid {0} in db {1}", item.Name, item.Database.Name), "IsOfTemplate");
+					continue;
+				}
+
 				// Recursively check templates
 				if ( (baseTemplate.ID.ToString() == templateId) ||
 					 (baseTemplate.IsTemplateOfTemplate(templateId, (depth > 0 ? depth - 1 : depth)))
@@ -120,7 +127,7 @@ namespace Sitecore.SharedSource.Commons.Extensions
 			}
 
 			// Check base templates
-			// TODO - look into the impact of recusion on performance, particularly with respect to deep and broad trees.
+			// TODO - look into the impact of recursion on performance, particularly with respect to deep and broad trees.
 			foreach (TemplateItem baseTemplate in item.BaseTemplates)
 			{
 				// Recursively check templates
@@ -184,7 +191,7 @@ namespace Sitecore.SharedSource.Commons.Extensions
 		}
 
 		/// <summary>
-		/// Gets the ancestor.  Recurses along the inheritence of an items template.  
+		/// Gets the ancestor.  Recurses along the inheritance of an items template.  
 		/// This signature should be avoided because of potential performance issues. If you MUST recurse along template inheritance prefer passing depth as an int and work to minimised its value
 		/// </summary>
 		/// <param name="item">The item.</param>
@@ -197,7 +204,7 @@ namespace Sitecore.SharedSource.Commons.Extensions
 		}
 
 		/// <summary>
-		/// 	Crawls up the tree until the template is found.  Recurses along the inheritence of an items template.
+		/// 	Crawls up the tree until the template is found.  Recurses along the inheritance of an items template.
 		/// </summary>
 		/// <param name = "item"></param>
 		/// <param name = "templateId"></param>
@@ -217,9 +224,9 @@ namespace Sitecore.SharedSource.Commons.Extensions
 		}
 
 		/// <summary>
-		/// Gets the ancestor.  Recurses along the inheritence of an items template.
+		/// Gets the ancestor.  Recurses along the inheritance of an items template.
 		/// This signature should be avoided because of potential performance issues. 
-		/// If you MUST recurse along template inheritance prefer passing depth as an int and work to minimised its value
+		/// If you MUST recurse along template inheritance prefer passing depth as an int and work to minimized its value
 		/// </summary>
 		/// <param name="item">The item.</param>
 		/// <param name="templateIds">The template ids.</param>
@@ -231,7 +238,7 @@ namespace Sitecore.SharedSource.Commons.Extensions
 		}
 
 		/// <summary>
-		/// Gets the ancestor.  Recurses along the inheritence of an items template.
+		/// Gets the ancestor.  Recurses along the inheritance of an items template.
 		/// </summary>
 		/// <param name="item">The item.</param>
 		/// <param name="templateIds">The template ids.</param>
@@ -243,7 +250,7 @@ namespace Sitecore.SharedSource.Commons.Extensions
 		}
 		
 		/// <summary>
-		/// Gets the ancestor.  Recurses along the inheritence of an items template.
+		/// Gets the ancestor.  Recurses along the inheritance of an items template.
 		/// </summary>
 		/// <param name="item">The item.</param>
 		/// <param name="templateIds">The template ids.</param>
