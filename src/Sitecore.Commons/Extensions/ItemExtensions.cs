@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Sitecore.Data;
 using Sitecore.Data.Items;
 using Sitecore.Diagnostics;
 
@@ -320,6 +321,64 @@ namespace Sitecore.SharedSource.Commons.Extensions
 		public static bool IsMediaItem(this Item item)
 		{
 			return item.Paths.FullPath.ToLower().Contains("/sitecore/media library");
+		}
+
+		/// <summary>
+		/// Gets a list of items linked to in fields of the item it is called on.
+		/// </summary>
+		/// <param name="item">The item.</param>
+		/// <returns></returns>
+		public static IEnumerable<Item> GetRelatedItems(this Item item)
+		{
+			List<Item> retVal = new List<Item>();
+			TemplateItem template = item.Template;
+			foreach (TemplateFieldItem field in template.Fields)
+			{
+				//verify not a standard/system field
+				if (field.InnerItem.IsNotNull() && field.InnerItem.Paths.FullPath.ToLower().StartsWith("/sitecore/templates/system"))
+				{
+					continue;
+				}
+
+				//get field value
+				string fieldValue = item[field.Name];
+				if (string.IsNullOrEmpty(fieldValue))
+				{
+					continue;
+				}
+
+				//split into guid array
+				string[] values = fieldValue.Split('|');
+				if (values.Length == 0)
+				{
+					continue;
+				}
+
+				foreach (string fieldValueItemId in values)
+				{
+					if (string.IsNullOrEmpty(fieldValueItemId))
+					{
+						continue;
+					}
+
+					ID additionalItemId;
+					if (!ID.TryParse(fieldValueItemId, out additionalItemId))
+					{
+						continue;
+					}
+
+					// Try to get the related item, null-check it, if null, skip.
+					Item relatedItem = item.Database.GetItem(additionalItemId);
+					if (relatedItem.IsNull())
+					{
+						continue;
+					}
+
+					retVal.Add(relatedItem);
+				}
+			}
+
+			return retVal;
 		}
 	}
 }

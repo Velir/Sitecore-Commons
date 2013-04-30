@@ -206,49 +206,20 @@ namespace Sitecore.SharedSource.Commons.CustomSitecore.Pipeline
 			List<PublishingCandidate> additionalItems = new List<PublishingCandidate>();
 
 			Item item = context.PublishOptions.RootItem;
-			TemplateItem template = item.Template;
-			foreach (TemplateFieldItem field in template.Fields)
+			IEnumerable<Item> relatedItems = item.GetRelatedItems();
+			foreach (Item relatedItem in relatedItems)
 			{
-				//verify not a standard/system field
-				if (field.InnerItem.IsNotNull() && field.InnerItem.Paths.FullPath.ToLower().StartsWith("/sitecore/templates/system"))
+				if (relatedItem.IsNull())
 				{
 					continue;
 				}
 
-				//get field value
-				string fieldValue = item[field.Name];
-				if (string.IsNullOrEmpty(fieldValue))
-				{
-					continue;
-				}
-
-				//split into guid array
-				string[] values = fieldValue.Split('|');
-				if (values.Length == 0)
-				{
-					continue;
-				}
-
-				foreach (string fieldValueItemId in values)
-				{
-					if (string.IsNullOrEmpty(fieldValueItemId))
-					{
-						continue;
-					}
-
-					ID additionalItemId;
-					if (!ID.TryParse(fieldValueItemId, out additionalItemId))
-					{
-						continue;
-					}
-
-					PublishOptions options = new PublishOptions(context.PublishOptions.SourceDatabase,
-																context.PublishOptions.TargetDatabase,
-																PublishMode.Smart,
-																item.Language, context.PublishOptions.PublishDate);
-					PublishingCandidate publishingCandidate = new PublishingCandidate(additionalItemId, options);
-					additionalItems.Add(publishingCandidate);
-				}
+				PublishOptions options = new PublishOptions(context.PublishOptions.SourceDatabase,
+																		context.PublishOptions.TargetDatabase,
+																		PublishMode.Smart,
+																		item.Language, context.PublishOptions.PublishDate);
+				PublishingCandidate publishingCandidate = new PublishingCandidate(relatedItem.ID, options);
+				additionalItems.Add(publishingCandidate);
 			}
 
 			return additionalItems;
