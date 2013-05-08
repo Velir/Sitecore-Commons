@@ -6,19 +6,26 @@ namespace Sitecore.SharedSource.Commons.ItemReference
 {
 	public partial class ItemReferenceObject
 	{
-		private string _itemGuid;
+		private readonly string _itemGuid;
 		private Item _item;
 
 		public ItemReferenceObject(string itemGuid)
 		{
 			_itemGuid = itemGuid;
-			_item = SitecoreItemFinder.GetItemFromCurrentDatabase(itemGuid);
 		}
 
 		public string Name
 		{
 			get
 			{
+				if(_item == null)
+				{
+					_item = SitecoreItemFinder.GetItemFromCurrentDatabase(_itemGuid);
+				}
+				if (_item == null)
+				{
+					return null;
+				}
 				return _item.Name;
 			}
 		}
@@ -27,6 +34,14 @@ namespace Sitecore.SharedSource.Commons.ItemReference
 		{
 			get
 			{
+				if (_item == null)
+				{
+					_item = SitecoreItemFinder.GetItemFromCurrentDatabase(_itemGuid);
+				}
+				if (_item == null)
+				{
+					return null;
+				}
 				return _item.Paths.Path;
 			}
 		}
@@ -43,7 +58,11 @@ namespace Sitecore.SharedSource.Commons.ItemReference
 		{
 			get
 			{
-				if(_item==null)
+				if (_item == null)
+				{
+					_item = SitecoreItemFinder.GetItemFromCurrentDatabase(_itemGuid);
+				}
+				if(_item == null)
 				{
 					return null;
 				}
@@ -55,6 +74,10 @@ namespace Sitecore.SharedSource.Commons.ItemReference
 		{
 			get
 			{
+				if (_item == null)
+				{
+					_item = SitecoreItemFinder.GetItemFromCurrentDatabase(_itemGuid);
+				}
 				return _item;
 			}
 		}
