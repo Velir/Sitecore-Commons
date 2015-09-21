@@ -68,21 +68,28 @@ namespace Sitecore.SharedSource.Commons.Extensions
 
 			// Check base templates
 			// TODO - look into the impact of recursion on performance, particularly with respect to deep and broad trees.
-			foreach (TemplateItem baseTemplate in item.Template.BaseTemplates)
+			if (item.Template != null && item.Template.BaseTemplates != null && item.Template.BaseTemplates.Any()){
 			{
-				if (((Item)baseTemplate).IsNull())
-				{// Log and continue on null base-templates.
-					Log.Error(string.Format("Invalid base template, check the publication status for the base templates of item with guid {0} in db {1}", item.Name, item.Database.Name), "IsOfTemplate");
-					continue;
-				}
-
-				// Recursively check templates
-				if ( (baseTemplate.ID.ToString() == templateId) ||
-					 (baseTemplate.IsTemplateOfTemplate(templateId, (depth > 0 ? depth - 1 : depth)))
-					)
+				foreach (TemplateItem baseTemplate in item.Template.BaseTemplates)
 				{
-					return true;
+					if (((Item)baseTemplate).IsNull())
+					{// Log and continue on null base-templates.
+						Log.Error(string.Format("Invalid base template, check the publication status for the base templates of item with guid {0} in db {1}", item.Name, item.Database.Name), "IsOfTemplate");
+						continue;
+					}
+
+					// Recursively check templates
+					if ( (baseTemplate.ID.ToString() == templateId) ||
+						 (baseTemplate.IsTemplateOfTemplate(templateId, (depth > 0 ? depth - 1 : depth)))
+						)
+					{
+						return true;
+					}
 				}
+			}
+			else
+			{
+				Log.Error(string.Format("Invalid base template, check the publication status for the base templates of item with guid {0} in db {1}", item.templateId, item.Database.Name), "IsOfTemplate");
 			}
 
 			//no matches
