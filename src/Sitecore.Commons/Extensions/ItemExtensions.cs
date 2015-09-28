@@ -168,6 +168,42 @@ namespace Sitecore.SharedSource.Commons.Extensions
 		}
 
 		/// <summary>
+		/// 	check to verify that the item is of passed template
+		/// </summary>
+		/// <param name = "item"></param>
+		/// <param name = "templateId"></param>
+		/// <returns></returns>
+		public static bool IsOfTemplate(this Item item, ID templateId)
+		{
+			return item.IsOfTemplate(templateId.ToString());
+		}
+
+		/// <summary>
+		/// 	Will check the item's template, if deep is enabled it will check item's base templates
+		/// This signature should be avoided because of potential performance issues. If you MUST recurse along template inheritance prefer passing depth as an int and work to minimised its value
+		/// </summary>
+		/// <param name = "item"></param>
+		/// <param name = "templateId"></param>
+		/// <param name = "deep"></param>
+		/// <returns></returns>
+		public static bool IsOfTemplate(this Item item, ID templateId, bool deep)
+		{
+			return item.IsOfTemplate(templateId.ToString(), deep);
+		}
+
+		/// <summary>
+		/// 	Will check the item's template, if depth is non-zero it will recurse down the item's base templates
+		/// </summary>
+		/// <param name = "item"></param>
+		/// <param name = "templateId"></param>
+		/// <param name = "depth">0 = 'Do not recurse', -1 = 'recurse as far as system base template', n = 'recurse a maximum of n times'</param>
+		/// <returns></returns>
+		public static bool IsOfTemplate(this Item item, ID templateId, int depth)
+		{
+			return item.IsOfTemplate(templateId.ToString(), depth);
+		}
+
+		/// <summary>
 		/// 	Checks to see if an item is null
 		/// </summary>
 		/// <param name = "item"></param>
